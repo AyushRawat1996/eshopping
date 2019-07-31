@@ -1,0 +1,792 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Traceability Hyperledger POC",
+    "description": "Hyperledger POC admin panel APIs",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3600",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+
+    "/admin": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Create new admin",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Admin that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          {
+            "$ref": "#/header-params/role-id"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "New Admin is created",
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Create new user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/NewUser"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users in system",
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/users/{userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "description": "ID of user that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user with given ID",
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "User is found",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user with given ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "User is deleted",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update user with give ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/UserPatch"
+            }
+          },
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "User is updated",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/auth": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Authenticate user in system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to login",
+            "schema": {
+              "$ref": "#/definitions/Authenticate"
+            }
+          },
+          {
+            "$ref": "#/header-params/role-id"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "User authenticated",
+            "schema": {
+              "$ref": "#/definitions/AuthenticateResponse"
+            }
+          }
+        }
+      }
+    },
+
+
+
+    "/devices": {
+      "post": {
+        "tags": [
+          "Devices"
+        ],
+        "description": "Creation a Device",
+        "parameters": [
+          {
+            "name": "Device Info",
+            "in": "body",
+            "description": "Name of Device we want to create",
+            "schema": {
+              "$ref": "#/definitions/NewDevice"
+            }
+          },
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Device created",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Get all Devices in system",
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Devices"
+            }
+          }
+        }
+      }
+    },
+
+
+
+    "/devices/{deviceId}": {
+      "parameters": [
+        {
+          "name": "deviceId",
+          "in": "path",
+          "required": true,
+          "description": "ID of device we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Get Device with given ID",
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Device is found",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete device with given ID",
+        "tags": [
+          "Devices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Device is deleted",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Device with give ID",
+        "tags": [
+          "Devices"
+        ],
+        "parameters": [
+          {
+            "name": "device",
+            "in": "body",
+            "description": "device with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/NewDevice"
+            }
+          },
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Device is updated",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        }
+      }
+    },
+
+    "/transactions": {
+
+      "get":{
+        "tags": [
+          "Transactions"
+        ],
+        "description": "Get all transactions",
+        "parameters": [
+          
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Device is found"
+            
+          }
+        }
+      }
+    },
+
+    "/transactions/invoke/": {
+      "post": {
+        "tags": [
+          "TransactionsBlockchain"
+        ],
+        "description": "Create a transaction of device",
+        "parameters": [
+          {
+            "name": "Transaction info.",
+            "in": "body",
+            "description": "transaction information including device id, type and logs.",
+            "schema": {
+              "$ref": "#/definitions/TxData"
+            }
+          },
+          
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction created on blockchain"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "TransactionsBlockchain"
+        ],
+        "summary": "Get all Transactions on blockchain",
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+
+
+
+    "/devicetypes": {
+      "post": {
+        "tags": [
+          "Device Types"
+        ],
+        "description": "Creation of Device Type",
+        "parameters": [
+          {
+            "name": "Device type info: ",
+            "in": "body",
+            "description": "Name of Device Type we want to create",
+            "schema": {
+              "$ref": "#/definitions/DeviceType"
+            }
+          },
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Device Type created",
+            "schema": {
+              "$ref": "#/definitions/DeviceType"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Device Types"
+        ],
+        "summary": "Get all Device Types in system",
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DeviceTypes"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/devicetypes/{devicetypeId}": {
+      "parameters": [
+        {
+          "name": "devicetypeId",
+          "in": "path",
+          "required": true,
+          "description": "ID of device type we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Device Types"
+        ],
+        "summary": "Get Device Type with given ID",
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Device Type is found",
+            "schema": {
+              "$ref": "#/definitions/DeviceType"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete device Type with given ID",
+        "tags": [
+          "Device Types"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Device Type is deleted",
+            "schema": {
+              "$ref": "#/definitions/DeviceType"
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Device Type with given ID",
+        "tags": [
+          "Device Types"
+        ],
+        "parameters": [
+          {
+            "name": "device",
+            "in": "body",
+            "description": "device type with new values of properties",
+            "schema": {
+              "$ref": "#/definitions/DeviceType"
+            }
+          },
+          {
+            "$ref": "#/header-params/UserAgent"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Device Type is updated",
+            "schema": {
+              "$ref": "#/definitions/DeviceType"
+            }
+          }
+        }
+      }
+    }
+    
+
+
+  },
+  "definitions": {
+    "User": {
+      "required": [
+        "firstName",
+        "lastName",
+        "password",
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        }
+      }
+    },
+    "UserPatch": {
+      "required": [
+        "firstName",
+        "lastName",
+        "password"
+      ],
+      "properties": {
+
+        "password": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        }
+      }
+    },
+
+    "TxData": {
+      "required": [
+        "type",
+        "parameters",
+        "method"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "parameter": {
+          "type": "object"
+        },
+        "method": {
+          "type": "string"
+        }
+      }
+    },
+
+    "Users": {
+      "type": "array",
+      "$ref": "#/definitions/User"
+    },
+    "NewUser": {
+      "type": "object",
+        "$ref": "#/definitions/User"
+    },
+
+    "Authenticate": {
+      "properties": {
+        "email": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "AuthenticateResponse": {
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
+    "Device": {
+      "required": [
+        "name",
+        "status",
+        "serial_number"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "serial_number": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "Date"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "Date"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "String"
+        },
+        "updatedBy": {
+          "type": "string",
+          "format": "String"
+        }
+      }
+    },
+    "NewDevice": {
+      "required": [
+        "name",
+        "status",
+        "serial_number",
+        "device_type_id"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "serial_number": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "device_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Devices": {
+      "type": "array",
+      "$ref": "#/definitions/Device"
+    },
+
+
+    "DeviceType": {
+      "required": [
+        "name",
+        "status"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        }
+      }
+    },
+    "DeviceTypes": {
+      "type": "array",
+      "$ref": "#/definitions/DeviceType"
+    }
+  },
+  "header-params": {
+    "UserAgent": {
+      "name": "Authorization",
+      "type": "string",
+      "in": "header",
+      "required": true
+    },
+    "role-id": {
+      "name": "role-id",
+      "type": "integer",
+      "in": "header",
+      "required": true
+    }
+  }
+}
